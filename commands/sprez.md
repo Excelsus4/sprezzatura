@@ -1,5 +1,5 @@
 ---
-description: Short alias for /sprezzatura — adaptive fault-cluster QA stress-test audit
+description: Short alias for /sprezzatura - read-only audit for environment and boundary bugs
 argument-hint: [scope or path] [--mode quick|standard|deep] [--repo] [--prove]
 ---
 

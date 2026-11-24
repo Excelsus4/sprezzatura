@@ -1,79 +1,31 @@
-<div align="center">
-
 # Sprezzatura
 
-### *Weaponize the Turkey Test. Adaptive, Isolated Fault-Cluster QA Audits for Coding Agents.*
+> *Sprezzatura* (Castiglione, 1528) — studied nonchalance: effortless ease on the surface, invisible rigor underneath. This tool is the rigor underneath.
 
-<p>
-  <img src="https://img.shields.io/badge/Dependencies-Zero_(Pure_Stdlib)-5C4E3F?style=for-the-badge" alt="Zero Dependencies" />
-  <img src="https://img.shields.io/badge/Fault_Clusters-12_Hostile_World--States-8E2F21?style=for-the-badge" alt="12 Hostile World-State Clusters" />
-  <img src="https://img.shields.io/badge/Default_Mode-Strictly_Read--Only-2F5D62?style=for-the-badge" alt="Read-Only Default" />
-  <img src="https://img.shields.io/badge/Agents-Claude_Code_%7C_Antigravity_%7C_Codex-3D4F5F?style=for-the-badge" alt="Cross-Agent Skill" />
-</p>
+**Your tests pass on your machine. Sprezzatura asks what happens on someone else's** — a different locale, a DST jump, a path with spaces, a process killed mid-write, or a request arriving twice.
 
-> *"Sprezzatura"* (Italian, Baldassare Castiglione, 1528) — *studied nonchalance*: effortless grace on the surface, backed by relentless, invisible rigor underneath.
->
-> **Sprezzatura** (`/sprezzatura`, `/sprez`) is a zero-dependency, cross-agent **Fault-Cluster QA Audit** skill and Antigravity plugin.
+A read-only QA audit skill for **Claude Code**, **Antigravity**, and **Codex CLI**. It fingerprints your diff deterministically, runs isolated per-cluster reviewers only for failure classes the code can actually reach, and filters every finding through a fresh-context blind verifier before anything reaches your screen.
 
-</div>
+`/sprezzatura` · `/sprez` · zero dependencies (Python 3.9+ stdlib) · never edits target files · never files issues without confirmation
 
 ---
 
-## The Problem: Why Generic Code-Review Checklists Fail
+## When to Run It
 
-Ask an LLM a generic prompt like *"review this diff for edge cases"* and you get shallow box-ticking, style nitpicks, and speculative false positives. Ask it one vivid, adversarial scenario — the classic **Turkey Test** (*"Does this work on a Turkish Windows machine where `'i'.ToUpper() == 'İ'` and decimals use commas?"*) — and it suddenly traces real, production-breaking failure paths.
-
-Meanwhile, stuffing 30+ edge-case checklists into a single prompt causes **anchor bleed** and **attention dilution**, while naive multi-agent fan-out causes **false-positive fatigue** (e.g., flagging locale-independent Python `str.lower()` under a Turkish-locale rule).
-
-**Sprezzatura** turns that asymmetry into a disciplined, repeatable 3-stage pipeline.
-
----
-
-## How Sprezzatura Works
-
-1. **Stage 1 — Hybrid Surface Profiler (`scripts/fingerprint.py`):**
-   - A deterministic, pure-stdlib Python scanner fingerprints the target diff or path for stack, OS/runtime, and API boundary signals (excluding test harnesses from production scoring by default unless `--include-tests` or a test `--path` is passed).
-   - The orchestrator verifies reachability, adaptively activates **0–5 genuinely relevant clusters** (never padding small diffs), binds each to exact target files, and discloses skipped clusters in ≤4 lines.
-2. **Stage 2 — Isolated Parallel Cluster Hunters (Read-Only):**
-   - Spawns **one clean-context, read-only subagent per active cluster** with zero cross-talk.
-   - Each hunter receives *only* its assigned **≤45-line Hostile World-State Card** — containing a **Per-Stack Applicability Matrix** (killing cross-stack false positives), `3–5` concrete torture probes, an **Explicit Retire/Disproof Rule**, and a **0-Findings (`CLEAN`) Honor Rule**.
-   - Problem-only contract: every candidate must cite `file:line`, `symbol`, trigger input, broken contract, traced path, and user impact (max 4 findings per hunter, zero unsolicited code patches).
-3. **Stage 3 — Blind Skeptical Verifier (Fresh Context):**
-   - Receives *only* normalized evidence records (hunter prose, persuasion, and confidence scores are stripped).
-   - Acts as a hostile defense attorney: re-reads cited code, callers, and guards to **disprove** unreachable or contract-compliant claims, merges shared root causes, and assigns deterministic fingerprints (`sprezzatura:<10-char-hash>`).
-4. **Stage 3.5 — Opt-In Execution Proof & Confirm-Before-File:**
-   - Findings default to `STATIC-ONLY` in a concise first-screen report (strictly separating completed vs. skipped/timed-out charters).
-   - Pass `--prove` or reply `Verify F01` to run an isolated scratch reproduction through the **real product entry point + passing control** (`PROVEN` / `STATIC-ONLY` / `REPRO-FAILED`; heavy GUI/engine stacks safely remain `STATIC-ONLY`).
-   - Reply `File F01, F02` to preview exact issue drafts, check for duplicates (`gh issue list --search "sprezzatura:<fp>"`), and file **only after explicit confirmation**.
+- **Before merging a PR or cutting a release** when changes touch file I/O, parsing, wire serialization, auth boundaries, retries, or date/locale handling.
+- **When shipping across OS or locale boundaries** — Windows/Linux paths, Unicode or spaced filenames, non-US locale casing or decimal commas, DST or monotonic clock assumptions.
+- **Before deploying state-transition logic** such as schema migrations, cold-start initialization, lock files, or atomic-write / crash-recovery paths.
+- **When picking up an unfamiliar module** (`--path src/billing`) and wanting a scoped, read-only risk sweep without speculative code patches.
 
 ---
 
-## The 12 Hostile World-State Clusters
+## Quick Start
 
-Every card in [`skill/sprezzatura/references/clusters/`](./skill/sprezzatura/references/clusters/) is lint-enforced by `tools/lint_cards.py` to stay `<=45` lines and `<=250` words so it never degenerates into a bloated checklist.
+Requires Python 3.9+ (standard library only) and one of Claude Code, Antigravity (`agy`), or Codex CLI.
 
-| # | Cluster ID | Category | Focus | Card |
-|---:|---|---|---|---|
-| 01 | `locale-casing` | `i18n` | Turkish `i`/`İ`, `I`/`ı`, culture-sensitive lookup | [01_locale_casing.md](./skill/sprezzatura/references/clusters/01_locale_casing.md) |
-| 02 | `locale-format` | `i18n` | Decimal comma, date order, currency precision | [02_locale_format.md](./skill/sprezzatura/references/clusters/02_locale_format.md) |
-| 03 | `clock-dst-sleep` | `time` | DST gaps/ambiguity, wall-clock jumps, laptop sleep spikes | [03_clock_dst_sleep.md](./skill/sprezzatura/references/clusters/03_clock_dst_sleep.md) |
-| 04 | `fs-paths-unicode` | `filesystem` | Spaces/non-ASCII/emoji paths, Windows CP949/cp1252, case sensitivity | [04_fs_paths_unicode.md](./skill/sprezzatura/references/clusters/04_fs_paths_unicode.md) |
-| 05 | `crash-partial-write` | `durability` | Mid-flight `SIGKILL`/`ENOSPC`, truncated files, zombie locks | [05_crash_partial_write.md](./skill/sprezzatura/references/clusters/05_crash_partial_write.md) |
-| 06 | `concurrency-idempotency` | `concurrency` | Double-click races, out-of-order responses, non-idempotent retries | [06_concurrency_idempotency.md](./skill/sprezzatura/references/clusters/06_concurrency_idempotency.md) |
-| 07 | `numeric-boundary` | `numeric` | Zero, `NaN`/`Inf`, falsy coercion, `fp16`/float drift | [07_numeric_boundary.md](./skill/sprezzatura/references/clusters/07_numeric_boundary.md) |
-| 08 | `wire-serialization` | `serialization` | Schema drift, single-item array unwrapping, unknown enums | [08_wire_serialization.md](./skill/sprezzatura/references/clusters/08_wire_serialization.md) |
-| 09 | `network-hostile` | `network` | Missing timeouts, half-open sockets, retry storms | [09_network_hostile.md](./skill/sprezzatura/references/clusters/09_network_hostile.md) |
-| 10 | `resource-scale-lifetime` | `lifecycle` | Empty/100× scale cliffs, 72-hour handle/timer leaks | [10_resource_scale_lifetime.md](./skill/sprezzatura/references/clusters/10_resource_scale_lifetime.md) |
-| 11 | `auth-trust-boundary` | `security` | IDOR, path traversal, SQL/shell boundary bypass, secret logs | [11_auth_trust_boundary.md](./skill/sprezzatura/references/clusters/11_auth_trust_boundary.md) |
-| 12 | `cold-start-migration` | `lifecycle` | Empty first-run state, schema upgrades, read-only install dirs | [12_cold_start_migration.md](./skill/sprezzatura/references/clusters/12_cold_start_migration.md) |
+### 1. Install
 
----
-
-## Installation
-
-Everything Sprezzatura needs lives in [`skill/sprezzatura/`](./skill/sprezzatura/) — pure Markdown + one zero-dependency Python 3.9+ stdlib script (`scripts/fingerprint.py`).
-
-Clone, inspect the files, and run the local installer helper (supports `--dry-run`, handles reinstalls cleanly, and generates `plugin.json` for Antigravity):
+Clone the repository and run the local installer helper (supports `--dry-run`, handles reinstalls cleanly, and generates `plugin.json` for Antigravity):
 
 ```bash
 git clone https://github.com/Excelsus4/sprezzatura.git && cd sprezzatura
@@ -96,7 +48,7 @@ powershell -ExecutionPolicy Bypass -File tools\install.ps1 -Target all
 Remove any previous `sprezzatura` folder before copying so `cp -r` does not nest `sprezzatura/sprezzatura`:
 
 ```bash
-# Claude Code (+ optional /sprezzatura and /sprez slash commands)
+# Claude Code (+ /sprezzatura and /sprez slash commands)
 mkdir -p ~/.claude/skills ~/.claude/commands
 rm -rf ~/.claude/skills/sprezzatura
 cp -r skill/sprezzatura ~/.claude/skills/sprezzatura
@@ -115,27 +67,83 @@ cp -r skill/sprezzatura ~/.codex/skills/sprezzatura
 
 </details>
 
----
+### 2. Run in a Target Repository
 
-## Usage & Modes
+Open your coding agent inside the **repository you want to audit** (`cd /path/to/your-project`), not inside the cloned `sprezzatura` directory:
 
 ```text
 /sprezzatura                              # Auto-scope (working diff -> merge-base)
-/sprez src/payments --mode standard       # Targeted module audit
+/sprez src/payments --mode standard       # Audit a specific module
 /sprez --mode deep --prove                # Up to 5 clusters + opt-in scratch repro
 /sprez --repo --mode deep                 # Full repository audit (confirms budget first)
 ```
 
-| Mode | Active Hunters | Verification | Best For |
+| Mode | Active Clusters | Verification | Best For |
 |---|---:|---|---|
 | `quick` | `0–1` | 1 Blind Verifier | Small diff or single targeted risk check |
 | `standard` *(default)* | Adaptive `0–3` | 1 Blind Verifier | Everyday PR / commit audit (target ≤5 contexts) |
 | `deep` | `0–5` | 1 Blind Verifier + opt-in `--prove` | Pre-release / milestone hardening |
 
-### Core Safety Invariants
-- **Strictly read-only by default:** Never modifies target repository files during an audit.
-- **Never auto-files issues:** Always previews drafts and checks `sprezzatura:<fp>` duplicates first; files only on explicit user confirmation of selected IDs.
-- **Honest silence:** `0 findings (CLEAN)` is a first-class outcome, and timed-out/skipped charters are always separated from clean completions.
+On a clean default branch with no diff, Sprezzatura stops and asks for a `--path` or explicit `--repo` confirmation instead of silently scanning the entire repository.
+
+---
+
+## What It Checks (12 Fault Clusters)
+
+Each cluster card in [`skill/sprezzatura/references/clusters/`](./skill/sprezzatura/references/clusters/) is lint-enforced by `tools/lint_cards.py` to stay `<=45` lines and `<=250` words with `3–5` concrete seed probes, per-stack applicability rules, and an explicit disproof rule.
+
+| # | Cluster ID | Category | Focus | Card |
+|---:|---|---|---|---|
+| 01 | `locale-casing` | `i18n` | Culture-sensitive casing (e.g., Turkish `i`/`İ`, `I`/`ı`) & lookup | [01_locale_casing.md](./skill/sprezzatura/references/clusters/01_locale_casing.md) |
+| 02 | `locale-format` | `i18n` | Decimal comma, date order, currency precision | [02_locale_format.md](./skill/sprezzatura/references/clusters/02_locale_format.md) |
+| 03 | `clock-dst-sleep` | `time` | DST gaps/ambiguity, wall-clock jumps, laptop sleep spikes | [03_clock_dst_sleep.md](./skill/sprezzatura/references/clusters/03_clock_dst_sleep.md) |
+| 04 | `fs-paths-unicode` | `filesystem` | Spaces/non-ASCII/emoji paths, Windows CP949/cp1252, case sensitivity | [04_fs_paths_unicode.md](./skill/sprezzatura/references/clusters/04_fs_paths_unicode.md) |
+| 05 | `crash-partial-write` | `durability` | Mid-flight `SIGKILL`/`ENOSPC`, truncated files, zombie locks | [05_crash_partial_write.md](./skill/sprezzatura/references/clusters/05_crash_partial_write.md) |
+| 06 | `concurrency-idempotency` | `concurrency` | Double-click races, out-of-order responses, non-idempotent retries | [06_concurrency_idempotency.md](./skill/sprezzatura/references/clusters/06_concurrency_idempotency.md) |
+| 07 | `numeric-boundary` | `numeric` | Zero, `NaN`/`Inf`, falsy coercion, `fp16`/float drift | [07_numeric_boundary.md](./skill/sprezzatura/references/clusters/07_numeric_boundary.md) |
+| 08 | `wire-serialization` | `serialization` | Schema drift, single-item array unwrapping, unknown enums | [08_wire_serialization.md](./skill/sprezzatura/references/clusters/08_wire_serialization.md) |
+| 09 | `network-hostile` | `network` | Missing timeouts, half-open sockets, retry storms | [09_network_hostile.md](./skill/sprezzatura/references/clusters/09_network_hostile.md) |
+| 10 | `resource-scale-lifetime` | `lifecycle` | Empty/100× scale cliffs, 72-hour handle/timer leaks | [10_resource_scale_lifetime.md](./skill/sprezzatura/references/clusters/10_resource_scale_lifetime.md) |
+| 11 | `auth-trust-boundary` | `security` | IDOR, path traversal, SQL/shell boundary bypass, secret logs | [11_auth_trust_boundary.md](./skill/sprezzatura/references/clusters/11_auth_trust_boundary.md) |
+| 12 | `cold-start-migration` | `lifecycle` | Empty first-run state, schema upgrades, read-only install dirs | [12_cold_start_migration.md](./skill/sprezzatura/references/clusters/12_cold_start_migration.md) |
+
+---
+
+## Reading the Report
+
+Reports open with a concise summary separating completed checks from skipped or timed-out checks, followed by confirmed findings (if any) and opt-in follow-up actions:
+
+```text
+Impact: <count + user-visible consequence>; checks <done>/<selected>; unfinished <count>
+Evidence: <STATIC-ONLY | PROVEN>; revision <sha>; <raw> -> <confirmed>
+Next: <smallest concrete next check>
+Coverage: <skipped or timed-out clusters and 1-line reasons>
+
+F01 | <Blocker | Major | Watch> | <STATIC-ONLY | PROVEN | REPRO-FAILED> | <regression | pre-existing>
+Location: <file:line> (<symbol>) | Fingerprint: sprezzatura:<10-char-hash>
+Trigger: <concrete input> | Contract: <expected behavior>
+Impact: <user-visible failure> | Next check: <verification step>
+
+Actions: Verify F01 | File F01 | Recheck
+```
+
+- **Proof tags:** Default findings are `STATIC-ONLY`. Passing `--prove` or replying `Verify F01` runs an isolated scratch check through the real product entry point plus a passing control (`PROVEN` or `REPRO-FAILED`; heavy GUI/engine builds stay `STATIC-ONLY`).
+- **Issue filing:** Replying `File F01` previews the exact draft and checks `gh issue list --search "sprezzatura:<fp>"` for duplicates; nothing is created until you explicitly confirm.
+
+---
+
+## How It Keeps Noise Down
+
+- **Deterministic scoping (`scripts/fingerprint.py`):** Respects `.gitignore`, excludes test files from production cluster scoring by default (`--include-tests` opt-in), and activates only reachable clusters (never padding a small diff).
+- **Isolated per-cluster checks:** Each active cluster runs in its own read-only subagent with one compact card, a per-stack applicability matrix (preventing cross-stack false positives such as flagging Python `str.lower()` under Turkish casing), and an explicit `0 findings (CLEAN)` rule.
+- **Fresh-context blind verification:** An independent reviewer sees only normalized evidence records—with reviewer prose and confidence scores stripped—re-reads cited code and callers to attempt refutation, merges shared root causes, and assigns stable fingerprints.
+- **Read-only by default:** Never modifies target repository files and never runs reproduction or issue creation without explicit opt-in.
+
+---
+
+## Scope
+
+Sprezzatura complements unit tests, linters, and SAST; it does not replace them. It reports concrete, reachable failure paths with evidence and never writes patches. Style, naming, and general PR review comments are out of scope.
 
 ---
 
@@ -161,5 +169,5 @@ powershell -ExecutionPolicy Bypass -File tools/install.ps1 -Target all -DryRun
 
 ## Companion Tool & License
 
-- Companion skill in the same Renaissance craft lineage: **[Sfumato](https://github.com/Excelsus4/sfumato)** — Dual-track cross-domain ideation for breaking LLM homogenization.
+- Companion skill in the same craft lineage: **[Sfumato](https://github.com/Excelsus4/sfumato)** — Dual-track cross-domain ideation for breaking LLM homogenization.
 - Licensed under the [MIT License](./LICENSE).

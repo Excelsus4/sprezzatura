@@ -24,8 +24,8 @@ set -euo pipefail
 SKILL_NAME="sprezzatura"
 DISPLAY_NAME="Sprezzatura"
 PLUGIN_VERSION="0.1.0"
-PLUGIN_DESCRIPTION="Adaptive fault-cluster QA audit: stress-tests code and diffs against hostile world-states (locale, clock, filesystem, concurrency, numeric and wire boundaries) with isolated hunters and a blind skeptical verifier."
-PROMPT_1="Stress-test my current changes with Sprezzatura"
+PLUGIN_DESCRIPTION="Read-only diff audit for locale, clock, path, crash, and concurrency bugs that pass local tests. Isolated checks, blind verifier."
+PROMPT_1="Audit my current changes for edge-case bugs with Sprezzatura"
 PROMPT_2="Run a Sprezzatura deep audit on this branch before release"
 PROMPT_3="Check this folder for locale, clock, and filesystem edge-case bugs with Sprezzatura"
 

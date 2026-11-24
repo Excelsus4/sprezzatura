@@ -1,18 +1,21 @@
 ---
 name: sprezzatura
 description: >-
-  Sprezzatura — Adaptive Fault-Cluster QA Audit. Weaponizes the "Turkey Test"
-  principle via a 3-stage pipeline: deterministic stdlib surface fingerprinting + reachability
-  profiling, isolated parallel read-only Cluster Hunters driven by <=45-line Hostile World-State
-  cards with per-stack applicability matrices, and a fresh-context Blind Skeptical Verifier
-  with opt-in scratch reproduction (--prove) and confirm-before-file issue drafting.
-  Trigger explicitly via /sprezzatura, /sprez, or when the user asks to stress-test code/diffs for
-  hidden environmental, locale, timing, filesystem, concurrency, or boundary defects.
+  Read-only, diff-first QA audit for environment-dependent defects that pass local tests
+  but break elsewhere: locale casing and formatting, clocks/DST/sleep, file paths and
+  encodings, mid-write crashes, concurrency and retries, numeric edges, serialization
+  drift, network failures, resource lifetime, trust boundaries, and first-run/migrations.
+  Profiles reachability deterministically, runs isolated per-cluster reviewers, and
+  filters every candidate through a fresh-context blind verifier. Use when the user
+  invokes /sprezzatura or /sprez, or explicitly asks for an environmental, edge-case,
+  robustness, or pre-release boundary audit. Do NOT auto-trigger on routine coding,
+  debugging, refactoring, unit-test writing, general PR/style review, load/performance
+  testing, or incidental keyword mentions (can spawn up to 6 subagents).
 ---
 
-# Sprezzatura (`/sprezzatura`, `/sprez`) — Adaptive Fault-Cluster QA Audit
+# Sprezzatura (`/sprezzatura`, `/sprez`) — Read-Only Fault-Cluster QA Audit
 
-Sprezzatura replaces noisy, generic 40-item code review checklists with **isolated, high-curvature hostile world-state probes** (like the classic *Turkey Test*), defended by a **Blind Skeptical Verifier** so only concrete, reachable defects reach the developer.
+Sprezzatura audits a diff, path, or repository for defects that pass local tests but fail under real-world environments—different locales, DST jumps, non-ASCII paths, mid-write crashes, or concurrent retries. It activates only reachable fault clusters, assigns each an isolated read-only reviewer with a single compact card, and passes normalized evidence to a fresh-context blind verifier that re-reads the code and attempts to refute every claim.
 
 > **Core Invariants (Non-Negotiable):**
 > 1. **Strictly Read-Only by Default:** Never modify target repository source files during an audit.
@@ -79,12 +82,12 @@ Spawn **1 fresh, isolated read-only subagent per selected cluster** in parallel 
 
 ---
 
-### Stage 3 — Blind Skeptical Verifier (Fresh Clean Context)
+### Stage 3 — Fresh-Context Blind Verifier
 If all hunters returned `0` valid candidates, skip Stage 3 and jump straight to Stage 4 (distinguishing clean completion from any timed-out hunter).
 
 Otherwise, spawn **1 fresh clean-context Verifier subagent** using the Stage 3 template in [prompt_templates.md](./references/prompt_templates.md):
 - **Blind Input Rule:** Strip all hunter prose, persuasion, confidence scores, and severity labels. Pass ONLY the normalized structured evidence records + target repo read access.
-- **Hostile Defense-Attorney Posture:** For every candidate, the Verifier MUST re-read the cited `file:line` and upstream callers/callees/contracts and **actively try to disprove it** (`DISPROVED` if guarded upstream, unreachable, wrong stack semantics, or governed by a different contract such as a wire spec requiring decimal dots).
+- **Refutation-First Posture:** For every candidate, the Verifier MUST re-read the cited `file:line` and upstream callers/callees/contracts and **actively try to disprove it** (`DISPROVED` if guarded upstream, unreachable, wrong stack semantics, or governed by a different contract such as a wire spec requiring decimal dots).
 - **Deduplicate & Rank:** Merge findings sharing one root cause and one fix. Assign `CONFIRMED: Blocker | Major | Watch` (max `10` findings per report).
 - **Stable Fingerprints:** Compute a deterministic 10-char fingerprint per confirmed finding via:
   ```bash

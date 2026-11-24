@@ -1,5 +1,5 @@
 ---
-description: Run Sprezzatura adaptive fault-cluster QA stress-test audit on the current diff, path, or repository
+description: Read-only audit of the current diff, path, or repo for locale, clock, path, crash, and concurrency bugs
 argument-hint: [scope or path] [--mode quick|standard|deep] [--repo] [--prove]
 ---
 

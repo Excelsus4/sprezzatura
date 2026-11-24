@@ -35,9 +35,9 @@ Set-StrictMode -Version 2.0
 $SkillName = 'sprezzatura'
 $DisplayName = 'Sprezzatura'
 $PluginVersion = '0.1.0'
-$PluginDescription = 'Adaptive fault-cluster QA audit: stress-tests code and diffs against hostile world-states (locale, clock, filesystem, concurrency, numeric and wire boundaries) with isolated hunters and a blind skeptical verifier.'
+$PluginDescription = 'Read-only diff audit for locale, clock, path, crash, and concurrency bugs that pass local tests. Isolated checks, blind verifier.'
 $SuggestedPrompts = @(
-    'Stress-test my current changes with Sprezzatura',
+    'Audit my current changes for edge-case bugs with Sprezzatura',
     'Run a Sprezzatura deep audit on this branch before release',
     'Check this folder for locale, clock, and filesystem edge-case bugs with Sprezzatura'
 )

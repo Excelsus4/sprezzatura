@@ -695,5 +695,99 @@ class InstallShArgsTest(unittest.TestCase):
             self.assertNotIn(b"\r", fh.read())
 
 
+# ---------------------------------------------------------------------------
+# installer metadata parity (D-05)
+# ---------------------------------------------------------------------------
+FORBIDDEN_METADATA_WORDS = ("turkey test", "weaponiz", "torture", "stress-test", "skeptical", "hostile world")
+
+
+def _read_text(path: str) -> str:
+    with open(path, encoding="utf-8-sig") as fh:
+        return fh.read()
+
+
+def _static_ps1_metadata() -> Dict:
+    import re
+    text = _read_text(INSTALL_PS1)
+    sq = r"'((?:[^']|'')*)'"
+    desc = re.search(r"^\$PluginDescription\s*=\s*" + sq + r"\s*$", text, re.M)
+    block = re.search(r"^\$SuggestedPrompts\s*=\s*@\((.*?)^\)", text, re.M | re.S)
+    assert desc and block, "could not locate metadata in install.ps1"
+    prompts = [m.replace("''", "'") for m in re.findall(sq, block.group(1))]
+    return {"description": desc.group(1).replace("''", "'"), "suggestedPrompts": prompts}
+
+
+def _static_sh_metadata() -> Dict:
+    import re
+    text = _read_text(INSTALL_SH)
+
+    def var(name: str) -> str:
+        m = re.search(r'^' + name + r'="([^"$`\\]*)"\s*$', text, re.M)
+        assert m, "could not locate {} in install.sh".format(name)
+        return m.group(1)
+
+    return {"description": var("PLUGIN_DESCRIPTION"),
+            "suggestedPrompts": [var("PROMPT_{}".format(i)) for i in (1, 2, 3)]}
+
+
+class InstallerMetadataParityTest(TempDirCase):
+    """install.ps1 and install.sh must emit byte-identical plugin.json description/suggestedPrompts."""
+
+    def _manifest(self, home: str) -> Dict:
+        path = os.path.join(home, ".gemini", "config", "plugins", "sprezzatura", "plugin.json")
+        with open(path, "rb") as fh:
+            raw = fh.read()
+        self.assertFalse(raw.startswith(b"\xef\xbb\xbf"))
+        data = json.loads(raw.decode("utf-8"))
+        return {"description": data["description"], "suggestedPrompts": data["suggestedPrompts"]}
+
+    def _ps1_runtime(self) -> Optional[Dict]:
+        exe = shutil.which("powershell") or shutil.which("pwsh")
+        if not exe:
+            return None
+        home = os.path.join(self.tmp, "ps_home")
+        proc = run([exe, "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", INSTALL_PS1,
+                    "-HomeDir", home, "-Target", "agy"])
+        self.assertEqual(proc.returncode, 0, proc.stderr.decode("utf-8", "replace"))
+        return self._manifest(home)
+
+    def _sh_runtime(self) -> Optional[Dict]:
+        bash = _posix_bash()
+        if not bash:
+            return None
+        proc = subprocess.run([bash, INSTALL_SH, "--home", "sh_home", "--target", "agy"],
+                              cwd=self.tmp, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        self.assertEqual(proc.returncode, 0, proc.stderr.decode("utf-8", "replace"))
+        return self._manifest(os.path.join(self.tmp, "sh_home"))
+
+    def assertCleanMetadata(self, meta: Dict, label: str) -> None:
+        desc = meta["description"]
+        self.assertLessEqual(len(desc), 140, label)
+        self.assertTrue(desc.isascii(), label)
+        self.assertEqual(len(meta["suggestedPrompts"]), 3, label)
+        for text in [desc] + list(meta["suggestedPrompts"]):
+            lowered = text.lower()
+            for word in FORBIDDEN_METADATA_WORDS:
+                self.assertNotIn(word, lowered, "{}: forbidden '{}' in {!r}".format(label, word, text))
+
+    def test_static_parity(self) -> None:
+        ps1, sh = _static_ps1_metadata(), _static_sh_metadata()
+        self.assertEqual(ps1["description"].encode("utf-8"), sh["description"].encode("utf-8"))
+        self.assertEqual([p.encode("utf-8") for p in ps1["suggestedPrompts"]],
+                         [p.encode("utf-8") for p in sh["suggestedPrompts"]])
+        self.assertCleanMetadata(ps1, "install.ps1")
+        self.assertCleanMetadata(sh, "install.sh")
+
+    def test_runtime_parity(self) -> None:
+        results = {k: v for k, v in (("install.ps1", self._ps1_runtime()), ("install.sh", self._sh_runtime())) if v}
+        if not results:
+            self.skipTest("neither PowerShell nor POSIX bash available")
+        expected = _static_ps1_metadata()
+        for label, meta in results.items():
+            self.assertEqual(json.dumps(meta, ensure_ascii=False).encode("utf-8"),
+                             json.dumps(expected, ensure_ascii=False).encode("utf-8"), label)
+            self.assertCleanMetadata(meta, label)
+
+
 if __name__ == "__main__":
     unittest.main()
