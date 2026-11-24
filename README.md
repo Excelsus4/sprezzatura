@@ -25,7 +25,7 @@
 
 > *"Sprezzatura" (Baldassare Castiglione, Il Libro del Cortegiano, 1528) — studied nonchalance: effortless ease on the surface, invisible rigor underneath. This tool is the rigor underneath.*
 >
-> **Sprezzatura** (`/sprezzatura`, `/sprez`) is a zero-dependency, read-only QA audit skill for **Claude Code**, **Antigravity**, and **Codex CLI** — **never edits target files, never files issues without confirmation.**
+> **Sprezzatura** (`/sprezzatura`, `/spz`) is a zero-dependency, read-only QA audit skill for **Claude Code**, **Antigravity**, and **Codex CLI** — **never edits target files, never files issues without confirmation.**
 
 </div>
 
@@ -159,7 +159,7 @@ powershell -ExecutionPolicy Bypass -File tools\install.ps1 -Target all
 Remove any previous `sprezzatura` folder before copying so `cp -r` does not nest `sprezzatura/sprezzatura`:
 
 ```bash
-# Claude Code (+ /sprezzatura and /sprez slash commands)
+# Claude Code (+ /sprezzatura and /spz slash commands)
 mkdir -p ~/.claude/skills ~/.claude/commands
 rm -rf ~/.claude/skills/sprezzatura
 cp -r skill/sprezzatura ~/.claude/skills/sprezzatura
@@ -184,9 +184,9 @@ Open your coding agent inside the **repository you want to audit** (`cd /path/to
 
 ```text
 /sprezzatura                              # Auto-scope (working diff -> merge-base)
-/sprez src/payments --mode standard       # Audit a specific module
-/sprez --mode deep --prove                # Up to 5 clusters + opt-in scratch repro
-/sprez --repo --mode deep                 # Full repository audit (confirms budget first)
+/spz src/payments --mode standard       # Audit a specific module
+/spz --mode deep --prove                # Up to 5 clusters + opt-in scratch repro
+/spz --repo --mode deep                 # Full repository audit (confirms budget first)
 ```
 
 | Mode | Active Clusters | Verification | Best For |

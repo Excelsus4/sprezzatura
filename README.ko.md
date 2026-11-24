@@ -25,7 +25,7 @@
 
 > *'스프레짜투라(Sprezzatura, 발다사레 카스틸리오네, 1528)' — 겉으로는 힘들이지 않은 자연스러움, 보이지 않는 바닥에는 빈틈없는 엄밀함. 이 도구는 그 보이지 않는 엄밀함을 맡습니다.*
 >
-> **Sprezzatura**(`/sprezzatura`, `/sprez`)는 **Claude Code**, **Antigravity**, **Codex CLI**를 위한 의존성 0의 읽기 전용 QA 감사 스킬입니다 — **대상 파일 수정 0건, 사용자 확인 없는 이슈 등록 0건.**
+> **Sprezzatura**(`/sprezzatura`, `/spz`)는 **Claude Code**, **Antigravity**, **Codex CLI**를 위한 의존성 0의 읽기 전용 QA 감사 스킬입니다 — **대상 파일 수정 0건, 사용자 확인 없는 이슈 등록 0건.**
 
 </div>
 
@@ -159,7 +159,7 @@ powershell -ExecutionPolicy Bypass -File tools\install.ps1 -Target all
 `cp -r` 실행 시 `sprezzatura/sprezzatura`로 중첩되지 않도록 기존 폴더가 있다면 먼저 지우고 복사합니다.
 
 ```bash
-# Claude Code (+ /sprezzatura, /sprez 슬래시 커맨드)
+# Claude Code (+ /sprezzatura, /spz 슬래시 커맨드)
 mkdir -p ~/.claude/skills ~/.claude/commands
 rm -rf ~/.claude/skills/sprezzatura
 cp -r skill/sprezzatura ~/.claude/skills/sprezzatura
@@ -184,9 +184,9 @@ cp -r skill/sprezzatura ~/.codex/skills/sprezzatura
 
 ```text
 /sprezzatura                              # 자동 범위 (워킹 diff -> merge-base)
-/sprez src/payments --mode standard       # 특정 모듈 지정 감사
-/sprez --mode deep --prove                # 최대 5개 클러스터 + 선택적 격리 재현 증명
-/sprez --repo --mode deep                 # 전체 저장소 감사 (예산 사전 확인)
+/spz src/payments --mode standard       # 특정 모듈 지정 감사
+/spz --mode deep --prove                # 최대 5개 클러스터 + 선택적 격리 재현 증명
+/spz --repo --mode deep                 # 전체 저장소 감사 (예산 사전 확인)
 ```
 
 | 모드 | 활성 클러스터 | 검증 | 적합한 상황 |
