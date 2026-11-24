@@ -1,0 +1,31 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "excelsus4-sprezzatura",
+  "description": "Sprezzatura read-only fault-cluster QA audit plugin for Claude Code.",
+  "owner": {
+    "name": "Excelsus4",
+    "url": "https://github.com/Excelsus4"
+  },
+  "plugins": [
+    {
+      "name": "sprezzatura",
+      "description": "Read-only diff audit for locale, clock, path, crash, and concurrency bugs that pass local tests. Isolated checks, blind verifier.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Excelsus4",
+        "url": "https://github.com/Excelsus4"
+      },
+      "homepage": "https://github.com/Excelsus4/sprezzatura",
+      "repository": "https://github.com/Excelsus4/sprezzatura",
+      "license": "MIT",
+      "keywords": [
+        "qa-audit",
+        "code-review",
+        "ai-agents",
+        "claude-code",
+        "agent-skills"
+      ],
+      "source": "./"
+    }
+  ]
+}

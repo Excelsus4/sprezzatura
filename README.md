@@ -136,7 +136,12 @@ Requires Python 3.9+ (standard library only) and one of **Claude Code**, **Antig
 
 ### 1. Install
 
-Clone the repository and run the local installer helper (supports `--dry-run`, handles reinstalls cleanly, and generates `plugin.json` for Antigravity):
+Install directly inside **Claude Code** via the repository marketplace, or clone and run the local installer helper (supports `--dry-run`, handles reinstalls cleanly, and generates `plugin.json` for Antigravity):
+
+```bash
+# Claude Code (one-step marketplace install, v2.1.275+)
+/plugin install sprezzatura --marketplace Excelsus4/sprezzatura
+```
 
 ```bash
 git clone https://github.com/Excelsus4/sprezzatura.git && cd sprezzatura

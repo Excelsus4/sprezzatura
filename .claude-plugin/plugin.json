@@ -1,0 +1,21 @@
+{
+  "name": "sprezzatura",
+  "version": "0.1.0",
+  "description": "Read-only diff audit for locale, clock, path, crash, and concurrency bugs that pass local tests. Isolated checks, blind verifier.",
+  "author": {
+    "name": "Excelsus4",
+    "url": "https://github.com/Excelsus4"
+  },
+  "homepage": "https://github.com/Excelsus4/sprezzatura",
+  "repository": "https://github.com/Excelsus4/sprezzatura",
+  "license": "MIT",
+  "keywords": [
+    "qa-audit",
+    "code-review",
+    "ai-agents",
+    "claude-code",
+    "agent-skills"
+  ],
+  "skills": "./skill",
+  "commands": "./commands"
+}

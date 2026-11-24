@@ -136,7 +136,12 @@ Python 3.9+(표준 라이브러리만 사용)와 **Claude Code**, **Antigravity 
 
 ### 1. 설치
 
-저장소를 클론하고 로컬 설치 스크립트를 실행합니다(`--dry-run` 미리보기, 깔끔한 재설치, Antigravity용 `plugin.json` 자동 생성 지원):
+**Claude Code**에서는 한 줄로 바로 설치하거나, 저장소를 클론해 로컬 설치 스크립트를 실행할 수 있습니다(`--dry-run` 미리보기, 깔끔한 재설치, Antigravity용 `plugin.json` 자동 생성 지원):
+
+```bash
+# Claude Code 원스텝 마켓플레이스 설치 (v2.1.275+)
+/plugin install sprezzatura --marketplace Excelsus4/sprezzatura
+```
 
 ```bash
 git clone https://github.com/Excelsus4/sprezzatura.git && cd sprezzatura
