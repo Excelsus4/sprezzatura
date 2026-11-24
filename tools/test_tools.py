@@ -571,7 +571,7 @@ class InstallerTest(TempDirCase):
         self.assertTrue(os.path.isfile(j(".claude", "skills", "sprezzatura", "SKILL.md")))
         self.assertTrue(os.path.isfile(j(".claude", "skills", "sprezzatura", "scripts", "fingerprint.py")))
         self.assertTrue(os.path.isfile(j(".claude", "commands", "sprezzatura.md")))
-        self.assertTrue(os.path.isfile(j(".claude", "commands", "sprez.md")))
+        self.assertTrue(os.path.isfile(j(".claude", "commands", "spz.md")))
         self.assertTrue(os.path.isfile(j(".codex", "skills", "sprezzatura", "SKILL.md")))
         plugin_root = j(".gemini", "config", "plugins", "sprezzatura")
         self.assertTrue(os.path.isfile(os.path.join(plugin_root, "skills", "sprezzatura", "SKILL.md")))
@@ -668,9 +668,9 @@ class InstallShReadOnlySourceTest(TempDirCase):
                         "home/.codex/skills/sprezzatura")
         skill = os.path.join(self.home, ".claude", "skills", "sprezzatura")
         self.assertTrue(os.path.isfile(os.path.join(skill, "SKILL.md")))
-        self.assertTrue(os.path.isfile(os.path.join(self.home, ".claude", "commands", "sprez.md")))
+        self.assertTrue(os.path.isfile(os.path.join(self.home, ".claude", "commands", "spz.md")))
         self.assertTrue(os.access(os.path.join(skill, "SKILL.md"), os.W_OK))
-        self.assertTrue(os.access(os.path.join(self.home, ".claude", "commands", "sprez.md"), os.W_OK))
+        self.assertTrue(os.access(os.path.join(self.home, ".claude", "commands", "spz.md"), os.W_OK))
 
 
 class InstallShArgsTest(unittest.TestCase):

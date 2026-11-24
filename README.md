@@ -6,7 +6,7 @@
 
 A read-only QA audit skill for **Claude Code**, **Antigravity**, and **Codex CLI**. It fingerprints your diff deterministically, runs isolated per-cluster reviewers only for failure classes the code can actually reach, and filters every finding through a fresh-context blind verifier before anything reaches your screen.
 
-`/sprezzatura` · `/sprez` · zero dependencies (Python 3.9+ stdlib) · never edits target files · never files issues without confirmation
+`/sprezzatura` · `/spz` · zero dependencies (Python 3.9+ stdlib) · never edits target files · never files issues without confirmation
 
 ---
 
@@ -48,7 +48,7 @@ powershell -ExecutionPolicy Bypass -File tools\install.ps1 -Target all
 Remove any previous `sprezzatura` folder before copying so `cp -r` does not nest `sprezzatura/sprezzatura`:
 
 ```bash
-# Claude Code (+ /sprezzatura and /sprez slash commands)
+# Claude Code (+ /sprezzatura and /spz slash commands)
 mkdir -p ~/.claude/skills ~/.claude/commands
 rm -rf ~/.claude/skills/sprezzatura
 cp -r skill/sprezzatura ~/.claude/skills/sprezzatura
@@ -73,9 +73,9 @@ Open your coding agent inside the **repository you want to audit** (`cd /path/to
 
 ```text
 /sprezzatura                              # Auto-scope (working diff -> merge-base)
-/sprez src/payments --mode standard       # Audit a specific module
-/sprez --mode deep --prove                # Up to 5 clusters + opt-in scratch repro
-/sprez --repo --mode deep                 # Full repository audit (confirms budget first)
+/spz src/payments --mode standard         # Audit a specific module
+/spz --mode deep --prove                  # Up to 5 clusters + opt-in scratch repro
+/spz --repo --mode deep                   # Full repository audit (confirms budget first)
 ```
 
 | Mode | Active Clusters | Verification | Best For |

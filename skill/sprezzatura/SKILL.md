@@ -7,13 +7,13 @@ description: >-
   drift, network failures, resource lifetime, trust boundaries, and first-run/migrations.
   Profiles reachability deterministically, runs isolated per-cluster reviewers, and
   filters every candidate through a fresh-context blind verifier. Use when the user
-  invokes /sprezzatura or /sprez, or explicitly asks for an environmental, edge-case,
+  invokes /sprezzatura or /spz, or explicitly asks for an environmental, edge-case,
   robustness, or pre-release boundary audit. Do NOT auto-trigger on routine coding,
   debugging, refactoring, unit-test writing, general PR/style review, load/performance
   testing, or incidental keyword mentions (can spawn up to 6 subagents).
 ---
 
-# Sprezzatura (`/sprezzatura`, `/sprez`) — Read-Only Fault-Cluster QA Audit
+# Sprezzatura (`/sprezzatura`, `/spz`) — Read-Only Fault-Cluster QA Audit
 
 Sprezzatura audits a diff, path, or repository for defects that pass local tests but fail under real-world environments—different locales, DST jumps, non-ASCII paths, mid-write crashes, or concurrent retries. It activates only reachable fault clusters, assigns each an isolated read-only reviewer with a single compact card, and passes normalized evidence to a fresh-context blind verifier that re-reads the code and attempts to refute every claim.
 
@@ -29,7 +29,7 @@ Sprezzatura audits a diff, path, or repository for defects that pass local tests
 
 ```text
 /sprezzatura [path-or-scope] [--mode quick|standard|deep] [--repo] [--prove]
-/sprez [path-or-scope] [--mode quick|standard|deep] [--repo] [--prove]
+/spz [path-or-scope] [--mode quick|standard|deep] [--repo] [--prove]
 ```
 
 | Mode | Active Hunters | Verification Stage | When to Use |
