@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 430" width="1120" height="430" role="img" aria-label="Sprezzatura 3-Stage Fault-Cluster QA Audit Architecture Diagram">
+  <defs>
+    <linearGradient id="bgParchment" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FAF6EE"/>
+      <stop offset="100%" stop-color="#EFE6D5"/>
+    </linearGradient>
+    <marker id="arrowSepia" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#6A5B4B"/>
+    </marker>
+    <marker id="arrowCrimson" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8E2F21"/>
+    </marker>
+    <marker id="arrowTeal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2F5D62"/>
+    </marker>
+    <filter id="cardShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#2B2118" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Parchment Background & Codex Double Frame -->
+  <rect x="0" y="0" width="1120" height="430" rx="10" fill="url(#bgParchment)"/>
+  <rect x="12" y="12" width="1096" height="406" rx="6" fill="none" stroke="#C9B99B" stroke-width="1.5"/>
+  <rect x="17" y="17" width="1086" height="396" rx="4" fill="none" stroke="#DED2BC" stroke-width="0.8"/>
+
+  <!-- Subtle Codex Corner Ornaments -->
+  <g stroke="#B8A482" stroke-width="1" fill="none" opacity="0.8">
+    <path d="M24,36 L24,24 L36,24"/>
+    <path d="M1096,36 L1096,24 L1084,24"/>
+    <path d="M24,394 L24,406 L36,406"/>
+    <path d="M1096,394 L1096,406 L1084,406"/>
+  </g>
+
+  <!-- Header -->
+  <text x="44" y="49" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-weight="bold" fill="#2B2118">
+    Sprezzatura Architecture: Reachable Fault Clusters + Blind Evidence Verification
+  </text>
+  <text x="44" y="70" font-family="system-ui, -apple-system, sans-serif" font-size="12.2" fill="#635647">
+    Deterministic diff profiler (stdlib) · Isolated per-cluster reviewers · Fresh-context blind verifier · Opt-in proof &amp; confirm-before-file
+  </text>
+
+  <!-- Stage Labels -->
+  <g font-family="system-ui, sans-serif" font-size="10.2" font-weight="700" fill="#8C7B65" letter-spacing="0.9">
+    <text x="128" y="102" text-anchor="middle">STAGE 1 · PROFILE</text>
+    <text x="382" y="102" text-anchor="middle">STAGE 2 · ISOLATED CLUSTER REVIEWERS</text>
+    <text x="580" y="102" text-anchor="middle" fill="#8E2F21">EVIDENCE WALL</text>
+    <text x="742" y="102" text-anchor="middle">STAGE 3 · BLIND VERIFIER</text>
+    <text x="980" y="102" text-anchor="middle">REPORT &amp; OPT-IN</text>
+  </g>
+
+  <!-- STAGE 1: Deterministic Surface Profiler -->
+  <g transform="translate(34, 126)">
+    <rect x="0" y="0" width="188" height="224" rx="7" fill="#F2F7F7" stroke="#2F5D62" stroke-width="1.6" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="8" height="224" rx="3" fill="#2F5D62"/>
+    <text x="20" y="26" font-family="Georgia, serif" font-size="13.2" font-weight="bold" fill="#1F4246">Surface Profiler</text>
+    <text x="20" y="42" font-family="system-ui, sans-serif" font-size="10.1" font-weight="600" fill="#527073">scripts/fingerprint.py</text>
+    <line x1="20" y1="52" x2="174" y2="52" stroke="#CDE0E2" stroke-width="1"/>
+    <text x="20" y="72" font-family="system-ui, sans-serif" font-size="10.4" fill="#2B3F42">• Diff-first (or --path / --repo)</text>
+    <text x="20" y="92" font-family="system-ui, sans-serif" font-size="10.4" fill="#2B3F42">• Respects .gitignore</text>
+    <text x="20" y="112" font-family="system-ui, sans-serif" font-size="10.4" fill="#2B3F42">• Excludes tests by default</text>
+    <text x="20" y="132" font-family="system-ui, sans-serif" font-size="10.4" fill="#2B3F42">• Detects stack &amp; API edges</text>
+    <rect x="18" y="148" width="156" height="62" rx="5" fill="#FFFFFF" stroke="#2F5D62" stroke-width="1.1"/>
+    <text x="96" y="166" font-family="system-ui, sans-serif" font-size="10.2" font-weight="700" fill="#1F4246" text-anchor="middle">Adaptive Selection</text>
+    <text x="96" y="182" font-family="system-ui, sans-serif" font-size="9.8" fill="#527073" text-anchor="middle">Activates 0-5 reachable</text>
+    <text x="96" y="197" font-family="system-ui, sans-serif" font-size="9.8" fill="#527073" text-anchor="middle">clusters (never pads diffs)</text>
+  </g>
+
+  <!-- STAGE 2: 3 Stacked Isolated Cluster Cards -->
+  <g transform="translate(256, 118)">
+    <rect x="0" y="0" width="252" height="72" rx="7" fill="#FFFDF8" stroke="#2F5D62" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="8" height="72" rx="3" fill="#2F5D62"/>
+    <text x="20" y="23" font-family="Georgia, serif" font-size="12.5" font-weight="bold" fill="#1F4246">Cluster Reviewer #1 (Read-Only)</text>
+    <text x="20" y="41" font-family="system-ui, sans-serif" font-size="10.2" fill="#354F52">1 compact card (≤45 lines) + target files</text>
+    <text x="20" y="58" font-family="system-ui, sans-serif" font-size="9.9" fill="#527073">Per-stack matrix · 0-findings CLEAN rule</text>
+  </g>
+
+  <g transform="translate(256, 202)">
+    <rect x="0" y="0" width="252" height="72" rx="7" fill="#FFFDF8" stroke="#8E2F21" stroke-width="1.6" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="8" height="72" rx="3" fill="#8E2F21"/>
+    <text x="20" y="23" font-family="Georgia, serif" font-size="12.5" font-weight="bold" fill="#8E2F21">Cluster Reviewer #2 (Read-Only)</text>
+    <text x="20" y="41" font-family="system-ui, sans-serif" font-size="10.2" fill="#4A2A25">e.g. fs-paths-unicode / crash-partial-write</text>
+    <text x="20" y="58" font-family="system-ui, sans-serif" font-size="9.9" fill="#7A4940">Cites file:line, trigger, contract, impact</text>
+  </g>
+
+  <g transform="translate(256, 286)">
+    <rect x="0" y="0" width="252" height="72" rx="7" fill="#F4F3F0" stroke="#7A7F84" stroke-width="1.4" stroke-dasharray="5,3"/>
+    <rect x="0" y="0" width="8" height="72" rx="3" fill="#7A7F84"/>
+    <text x="20" y="23" font-family="Georgia, serif" font-size="12.5" font-weight="bold" fill="#44484C">Cluster Reviewer #N (0-5 Total)</text>
+    <text x="20" y="41" font-family="system-ui, sans-serif" font-size="10.2" fill="#5F6469">Zero cross-talk · Max 4 candidates each</text>
+    <text x="20" y="58" font-family="system-ui, sans-serif" font-size="9.9" fill="#6E7378">Skipped clusters disclosed in 1 line each</text>
+  </g>
+
+  <!-- EVIDENCE WALL -->
+  <line x1="580" y1="112" x2="580" y2="366" stroke="#B83B2A" stroke-width="2" stroke-dasharray="6,4" opacity="0.85"/>
+  <g transform="translate(534, 184)">
+    <rect x="0" y="0" width="92" height="106" rx="6" fill="#FDF5F3" stroke="#8E2F21" stroke-width="1.8" filter="url(#cardShadow)"/>
+    <text x="46" y="20" font-family="Georgia, serif" font-size="10.8" font-weight="bold" fill="#8E2F21" text-anchor="middle">Evidence</text>
+    <text x="46" y="33" font-family="system-ui, sans-serif" font-size="9.2" font-weight="700" fill="#B83B2A" text-anchor="middle">ONLY PASSES</text>
+    <line x1="10" y1="41" x2="82" y2="41" stroke="#E8C6BF" stroke-width="1"/>
+    <text x="46" y="55" font-family="system-ui, sans-serif" font-size="9.1" fill="#4A2A25" text-anchor="middle">• file:line</text>
+    <text x="46" y="68" font-family="system-ui, sans-serif" font-size="9.1" fill="#4A2A25" text-anchor="middle">• Trigger input</text>
+    <text x="46" y="81" font-family="system-ui, sans-serif" font-size="9.1" fill="#4A2A25" text-anchor="middle">• Traced path</text>
+    <text x="46" y="96" font-family="system-ui, sans-serif" font-size="8.6" font-weight="600" fill="#8E2F21" text-anchor="middle">Prose stripped</text>
+  </g>
+
+  <!-- STAGE 3: Blind Verifier -->
+  <g transform="translate(648, 126)">
+    <rect x="0" y="0" width="188" height="224" rx="7" fill="#FDF5F3" stroke="#8E2F21" stroke-width="1.8" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="8" height="224" rx="3" fill="#8E2F21"/>
+    <text x="20" y="26" font-family="Georgia, serif" font-size="13.2" font-weight="bold" fill="#8E2F21">Blind Verifier</text>
+    <text x="20" y="42" font-family="system-ui, sans-serif" font-size="10.1" font-weight="600" fill="#B83B2A">Fresh Read-Only Context</text>
+    <line x1="20" y1="52" x2="174" y2="52" stroke="#E8C6BF" stroke-width="1"/>
+    <text x="20" y="72" font-family="system-ui, sans-serif" font-size="10.3" fill="#4A2A25">• Re-reads cited code</text>
+    <text x="20" y="92" font-family="system-ui, sans-serif" font-size="10.3" fill="#4A2A25">• Checks callers &amp; guards</text>
+    <text x="20" y="112" font-family="system-ui, sans-serif" font-size="10.3" fill="#4A2A25">• Refutes unreachable claims</text>
+    <text x="20" y="132" font-family="system-ui, sans-serif" font-size="10.3" fill="#4A2A25">• Merges shared root causes</text>
+    <text x="20" y="152" font-family="system-ui, sans-serif" font-size="10.3" fill="#4A2A25">• Assigns stable fingerprint</text>
+    <rect x="18" y="168" width="156" height="42" rx="5" fill="#FFFDF8" stroke="#D9A89F" stroke-width="1"/>
+    <text x="96" y="185" font-family="system-ui, sans-serif" font-size="9.6" font-weight="700" fill="#8E2F21" text-anchor="middle">sprezzatura:&lt;10-char-hash&gt;</text>
+    <text x="96" y="200" font-family="system-ui, sans-serif" font-size="9.4" fill="#635647" text-anchor="middle">Drops false positives cleanly</text>
+  </g>
+
+  <!-- OUTPUT & OPT-IN ACTIONS -->
+  <g transform="translate(874, 126)">
+    <rect x="0" y="0" width="212" height="224" rx="7" fill="#FFFDF8" stroke="#3E2F23" stroke-width="1.8" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="212" height="44" rx="7" fill="#8E2F21"/>
+    <rect x="0" y="34" width="212" height="10" fill="#8E2F21"/>
+    <text x="106" y="21" font-family="Georgia, serif" font-size="13.2" font-weight="bold" fill="#FAF6EE" text-anchor="middle">Audit Report</text>
+    <text x="106" y="36" font-family="system-ui, sans-serif" font-size="9.8" fill="#F5D3CE" text-anchor="middle">STATIC-ONLY · Zero Code Edits</text>
+    <text x="16" y="66" font-family="system-ui, sans-serif" font-size="10.4" font-weight="700" fill="#2B2118">✓ Confirmed Findings Only</text>
+    <text x="16" y="86" font-family="system-ui, sans-serif" font-size="10.2" fill="#4E4235">• Coverage: done vs skipped</text>
+    <text x="16" y="105" font-family="system-ui, sans-serif" font-size="10.2" fill="#4E4235">• Severity &amp; regression tags</text>
+    <text x="16" y="124" font-family="system-ui, sans-serif" font-size="10.2" fill="#4E4235">• Exact trigger &amp; next check</text>
+    <line x1="16" y1="138" x2="196" y2="138" stroke="#E3D8C5" stroke-width="1"/>
+    <text x="106" y="156" font-family="system-ui, sans-serif" font-size="10.1" font-weight="700" fill="#2F5D62" text-anchor="middle">OPT-IN NEXT ACTIONS</text>
+    <text x="16" y="175" font-family="system-ui, sans-serif" font-size="9.8" fill="#4E4235">• Verify F01: scratch repro → PROVEN</text>
+    <text x="16" y="192" font-family="system-ui, sans-serif" font-size="9.8" fill="#4E4235">• File F01: preview + dedupe + confirm</text>
+    <text x="16" y="209" font-family="system-ui, sans-serif" font-size="9.8" fill="#4E4235">• Recheck: track resolved vs present</text>
+  </g>
+
+  <!-- Bottom Invariant Bar -->
+  <g transform="translate(34, 372)">
+    <rect x="0" y="0" width="1052" height="28" rx="5" fill="#F6F0E4" stroke="#DED2BC" stroke-width="1"/>
+    <text x="526" y="18" font-family="system-ui, sans-serif" font-size="10.2" font-weight="600" fill="#5C4E3F" text-anchor="middle">
+      Zero dependencies (Python 3.9+ stdlib) · Strictly read-only by default · Never patches target files · Never files issues without explicit confirmation
+    </text>
+  </g>
+
+  <!-- Arrows: Stage 1 -> Stage 2 -->
+  <path d="M222,210 C238,210 238,154 252,154" fill="none" stroke="#2F5D62" stroke-width="1.6" marker-end="url(#arrowTeal)"/>
+  <line x1="222" y1="238" x2="252" y2="238" stroke="#8E2F21" stroke-width="1.8" marker-end="url(#arrowCrimson)"/>
+  <path d="M222,266 C238,266 238,322 252,322" fill="none" stroke="#7A7F84" stroke-width="1.4" stroke-dasharray="4,3" marker-end="url(#arrowSepia)"/>
+
+  <!-- Arrows: Stage 2 -> Evidence Wall -->
+  <path d="M508,154 C520,154 520,214 530,214" fill="none" stroke="#2F5D62" stroke-width="1.5" marker-end="url(#arrowTeal)"/>
+  <line x1="508" y1="238" x2="530" y2="238" stroke="#8E2F21" stroke-width="1.8" marker-end="url(#arrowCrimson)"/>
+  <path d="M508,322 C520,322 520,262 530,262" fill="none" stroke="#7A7F84" stroke-width="1.4" stroke-dasharray="4,3" marker-end="url(#arrowSepia)"/>
+
+  <!-- Arrows: Evidence Wall -> Stage 3 -> Output -->
+  <line x1="626" y1="238" x2="644" y2="238" stroke="#8E2F21" stroke-width="1.9" marker-end="url(#arrowCrimson)"/>
+  <line x1="836" y1="238" x2="870" y2="238" stroke="#8E2F21" stroke-width="1.9" marker-end="url(#arrowCrimson)"/>
+</svg>
