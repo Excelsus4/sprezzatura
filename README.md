@@ -214,13 +214,14 @@ python3 skill/sprezzatura/scripts/fingerprint.py --repo . --scope repo
 
 ## 🧩 Companion Tools & Design Lineage
 
-Sprezzatura is the post-build QA stage of a lightweight **Renaissance Craft Trio** of zero-dependency agent skills — each applying strict context boundaries to a different stage of building:
+Sprezzatura is the post-build QA stage of a lightweight **Renaissance Craft Quartet** of zero-dependency agent skills — each applying strict context boundaries to a different stage of building:
 
 | Tool | Stage | Isolation Axis | Focus |
 |---|---|---|---|
-| **[Sinopia](https://github.com/Excelsus4/sinopia)** | **Pre-build** | Vertical *(register isolation)* | Plain-language intake + isolated senior review of a refined brief |
-| **[Sfumato](https://github.com/Excelsus4/sfumato)** | **Divergence** | Horizontal *(domain isolation)* | Dual-track cross-domain ideation breaking LLM homogenization |
-| **Sprezzatura** *(this repo)* | **Post-build QA** | Cluster *(evidence isolation)* | Read-only fault-cluster audit catching bugs that pass local tests |
+| **[Sinopia](https://github.com/Excelsus4/sinopia)** (`/snp`) | **Pre-build** | Vertical *(register isolation)* | Plain-language intake + isolated senior review of a refined brief |
+| **[Sfumato](https://github.com/Excelsus4/sfumato)** (`/sfm`) | **Divergence** | Horizontal *(domain isolation)* | Dual-track cross-domain ideation breaking LLM homogenization |
+| **[Senato](https://github.com/Excelsus4/senato)** (`/snt`) | **Arbitration** | Stakeholder *(evidence isolation)* | Multi-seat trade-off deliberation with asymmetric evidence & preserved dissent |
+| **Sprezzatura** (`/spz`, *this repo*) | **Post-build QA** | Cluster *(evidence isolation)* | Read-only fault-cluster audit catching bugs that pass local tests |
 
 Licensed under the [MIT License](./LICENSE).
 

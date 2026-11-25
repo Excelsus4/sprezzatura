@@ -212,15 +212,16 @@ python3 skill/sprezzatura/scripts/fingerprint.py --repo . --scope repo
 
 ---
 
-## 🧩 르네상스 크래프트 3부작 & 라이선스
+## 🧩 르네상스 크래프트 4부작 & 라이선스
 
-Sprezzatura는 컨텍스트 격리로 AI 에이전트의 구조적 한계를 푸는 **의존성 0 에이전트 스킬 3부작**의 사후 QA 단계입니다:
+Sprezzatura는 컨텍스트 격리로 AI 에이전트의 구조적 한계를 푸는 **의존성 0 에이전트 스킬 4부작 (Renaissance Craft Quartet)**의 구현 후 QA 단계입니다:
 
 | 도구 | 단계 | 격리 축 | 역할 |
 |---|---|---|---|
-| **[Sinopia](https://github.com/Excelsus4/sinopia)** | **착수 전** | 수직 *(레지스터 격리)* | 일상어 상담 + 정제된 브리프의 격리 시니어 검토 |
-| **[Sfumato](https://github.com/Excelsus4/sfumato)** | **아이디어 발산** | 수평 *(도메인 격리)* | LLM 획일화를 깨는 듀얼 트랙 크로스도메인 탐색 |
-| **Sprezzatura** *(현재 저장소)* | **사후 QA** | 클러스터 *(증거 격리)* | 로컬 테스트를 통과하는 환경·경계 결함 읽기 전용 감사 |
+| **[Sinopia](https://github.com/Excelsus4/sinopia)** (`/snp`) | **착수 전** | 수직 *(레지스터 격리)* | 일상어 상담 + 정제된 브리프의 격리 시니어 검토 |
+| **[Sfumato](https://github.com/Excelsus4/sfumato)** (`/sfm`) | **아이디어 발산** | 수평 *(도메인 격리)* | LLM 획일화를 깨는 듀얼 트랙 크로스도메인 탐색 |
+| **[Senato](https://github.com/Excelsus4/senato)** (`/snt`) | **의사결정 중재** | 이해관계 *(근거 격리)* | 비대칭 근거 좌석과 익명 반동조 검증 기반 다좌석 심의 |
+| **Sprezzatura** (`/spz`, *현재 저장소*) | **구현 후 QA** | 클러스터 *(증거 격리)* | 로컬 테스트를 통과하는 환경·경계 결함 읽기 전용 감사 |
 
 [MIT 라이선스](./LICENSE)로 배포됩니다.
 
